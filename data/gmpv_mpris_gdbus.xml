@@ -1,0 +1,95 @@
+<!DOCTYPE node	PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
+		"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+
+<node>
+	<interface name='org.mpris.MediaPlayer2'>
+		<method name='Raise'/>
+		<method name='Quit'/>
+
+		<property type='b' name='CanQuit' access='read'/>
+		<property type='b' name='Fullscreen' access='readwrite'/>
+		<property type='b' name='CanSetFullscreen' access='read'/>
+		<property type='b' name='CanRaise' access='read'/>
+		<property type='b' name='HasTrackList' access='read'/>
+		<property type='s' name='Identity' access='read'/>
+		<property type='s' name='DesktopEntry' access='read'/>
+		<property type='as' name='SupportedUriSchemes' access='read'/>
+		<property type='as' name='SupportedMimeTypes' access='read'/>
+	</interface>
+
+	<interface name='org.mpris.MediaPlayer2.Player'>
+		<method name='Next'/>
+		<method name='Previous'/>
+		<method name='Pause'/>
+		<method name='PlayPause'/>
+		<method name='Stop'/>
+		<method name='Play'/>
+		<method name='Seek'>
+			<arg type='x' name='Offset'/>
+		</method>
+		<method name='SetPosition'>
+			<arg type='o' name='TrackId'/>
+			<arg type='x' name='Position'/>
+		</method>
+		<method name='OpenUri'>
+			<arg type='s' name='Uri'/>
+		</method>
+
+		<signal name='Seeked'>
+			<arg type='x' name='Position'/>
+		</signal>
+
+		<property name='PlaybackStatus' type='s' access='read'/>
+		<property name='LoopStatus' type='s' access='readwrite'/>
+		<property name='Rate' type='d' access='readwrite'/>
+		<property name='Shuffle' type='b' access='readwrite'/>
+		<property name='Metadata' type='a{sv}' access='read'/>
+		<property name='Volume' type='d' access='readwrite'/>
+		<property name='Position' type='x' access='read'/>
+		<property name='MinimumRate' type='d' access='read'/>
+		<property name='MaximumRate' type='d' access='read'/>
+		<property name='CanGoNext' type='b' access='read'/>
+		<property name='CanGoPrevious' type='b' access='read'/>
+		<property name='CanPlay' type='b' access='read'/>
+		<property name='CanPause' type='b' access='read'/>
+		<property name='CanSeek' type='b' access='read'/>
+		<property name='CanControl' type='b' access='read'/>
+	</interface>
+
+	<interface name='org.mpris.MediaPlayer2.TrackList'>
+		<method name='GetTracksMetadata'>
+			<arg type='ao' name='TrackIds' direction='in'/>
+			<arg type='aa{sv}' name='Metadata' direction='out'/>
+		</method>
+		<method name='AddTrack'>
+			<arg type='s' name='Uri' direction='in'/>
+			<arg type='o' name='AfterTrack' direction='in'/>
+			<arg type='b' name='SetAsCurrent' direction='in'/>
+		</method>
+		<method name='RemoveTrack'>
+			<arg type='o' name='TrackId' direction='in'/>
+		</method>
+		<method name='GoTo'>
+			<arg type='o' name='TrackId' direction='in'/>
+		</method>
+
+		<signal name='TrackListReplaced'>
+			<arg type='ao' name='Tracks'/>
+			<arg type='o' name='CurrentTrack'/>
+		</signal>
+		<signal name='TrackAdded'>
+			<arg type='a{sv}' name='Metadata'/>
+			<arg type='o' name='AfterTrack'/>
+		</signal>
+		<signal name='TrackRemoved'>
+			<arg type='o' name='TrackId'/>
+		</signal>
+		<signal name='TrackMetadataChanged'>
+			<arg type='o' name='TrackId'/>
+			<arg type='a{sv}' name='Metadata'/>
+		</signal>
+
+		<property name='Tracks' type='ao' access='read'/>
+		<property name='CanEditTracks' type='b' access='read'/>
+	</interface>
+</node>

@@ -1,0 +1,27 @@
+Source: gnome-mpv
+Section: video
+Priority: optional
+Maintainer: Debian Multimedia Maintainers <debian-multimedia@lists.debian.org>
+Uploaders: Ximin Luo <infinity0@debian.org>
+Build-Depends: debhelper (>= 9),
+ appstream-util,
+ autoconf-archive,
+ dh-autoreconf,
+ libepoxy-dev,
+ libgtk-3-dev (>= 3.22),
+ libmpv-dev (>= 0.21),
+ pkg-config,
+ python
+Standards-Version: 4.1.1
+Homepage: https://github.com/gnome-mpv/gnome-mpv
+Vcs-Git: https://salsa.debian.org/multimedia-team/gnome-mpv.git
+Vcs-Browser: https://salsa.debian.org/multimedia-team/gnome-mpv
+
+Package: gnome-mpv
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Recommends: youtube-dl
+Description: simple GTK+ frontend for mpv
+ GNOME MPV is a simple GTK+ frontend for mpv. GNOME MPV interacts with mpv via
+ the client API exported by libmpv, allowing access to mpv's powerful playback
+ capabilities.

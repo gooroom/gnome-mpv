@@ -1,0 +1,68 @@
+gnome-mpv (0.14-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Ximin Luo <infinity0@debian.org>  Fri, 18 May 2018 00:32:39 -0700
+
+gnome-mpv (0.13-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update to latest Standards-Version; no changes required.
+
+ -- Ximin Luo <infinity0@debian.org>  Thu, 19 Oct 2017 15:17:11 +0200
+
+gnome-mpv (0.12-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Ximin Luo <infinity0@debian.org>  Sun, 18 Jun 2017 13:46:17 +0200
+
+gnome-mpv (0.11-1) unstable; urgency=medium
+
+  * New upstream release. (Closes: #842900, #850667)
+
+ -- Ximin Luo <infinity0@debian.org>  Sun, 15 Jan 2017 14:20:53 +0100
+
+gnome-mpv (0.10-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Ximin Luo <infinity0@debian.org>  Wed, 07 Sep 2016 14:02:44 +0200
+
+gnome-mpv (0.9-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Ximin Luo <infinity0@debian.org>  Fri, 20 May 2016 13:31:25 +0200
+
+gnome-mpv (0.8-2) unstable; urgency=medium
+
+  * Update build dependency to match upstream.
+
+ -- Ximin Luo <infinity0@debian.org>  Wed, 18 May 2016 20:20:30 +0200
+
+gnome-mpv (0.8-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Update to latest Standards-Version. No changes required.
+
+ -- Ximin Luo <infinity0@debian.org>  Thu, 12 May 2016 17:47:09 +0200
+
+gnome-mpv (0.7-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Temporarily disable unimportant failing tests.
+
+ -- Ximin Luo <infinity0@debian.org>  Sun, 07 Feb 2016 20:43:07 +0100
+
+gnome-mpv (0.6-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Ximin Luo <infinity0@debian.org>  Fri, 13 Nov 2015 01:12:36 +0100
+
+gnome-mpv (0.5-1) unstable; urgency=medium
+
+  * Initial release. (Closes: #799536)
+
+ -- Ximin Luo <infinity0@debian.org>  Mon, 21 Sep 2015 17:33:00 +0200
