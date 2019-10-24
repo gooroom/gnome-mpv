@@ -1,0 +1,74 @@
+diff --git a/src/gmpv_def.h b/src/gmpv_def.h
+index c4756bf..2439f4d 100644
+--- a/src/gmpv_def.h
++++ b/src/gmpv_def.h
+@@ -98,20 +98,23 @@
+ 		"v osd-msg cycle sub-visibility",\
+ 		"s osd-msg screenshot",\
+ 		"S osd-msg screenshot video",\
+-		"j osd-msg cycle sub",\
+-		"J osd-msg cycle sub down",\
++		"j ignore",\
++		"J ignore",\
+ 		"@ osd-msg cycle chapter",\
+ 		"! osd-msg cycle chapter down",\
+ 		"DEL script-message gmpv-action win.remove-selected-playlist-item",\
+ 		"U stop",\
+-		"RIGHT no-osd seek 10",\
+-		"LEFT no-osd seek -10",\
+-		"UP no-osd seek 60",\
+-		"DOWN no-osd seek -60",\
++		"RIGHT no-osd seek 5 exact",\
++		"LEFT no-osd seek -5 exact",\
++		"UP no-osd seek 60 exact",\
++		"DOWN no-osd seek -60 exact",\
+ 		"MOUSE_BTN3 add volume 2",\
+ 		"MOUSE_BTN4 add volume -2",\
+ 		"MOUSE_BTN5 no-osd seek -10",\
+ 		"MOUSE_BTN6 no-osd seek 10",\
++		"Ctrl+RIGHT ignore",\
++		"Ctrl+LEFT ignore",\
++		"SHARP ignore",\
+ 		NULL }
+ 
+ #define KEYSTRING_MAP	{	"<", "less",\
+@@ -145,6 +148,8 @@
+ 				")", "parenright",\
+ 				"[", "bracketleft",\
+ 				"]", "bracketright",\
++                "{", "braceleft",\
++                "}", "braceright",\
+ 				"?", "question",\
+ 				"RIGHT", "Right",\
+ 				"LEFT", "Left",\
+diff --git a/src/gmpv_shortcuts_window.c b/src/gmpv_shortcuts_window.c
+index 7af28fe..641df45 100644
+--- a/src/gmpv_shortcuts_window.c
++++ b/src/gmpv_shortcuts_window.c
+@@ -71,7 +71,7 @@ static void gmpv_shortcuts_window_init(GmpvShortcutsWindow *wnd)
+ 			{"<Shift>leftarrow <Shift>rightarrow", _("Exact seek backward/forward 1 second")},
+ 			{"downarrow uparrow", _("Seek backward/forward 1 minute")},
+ 			{"<Shift>downarrow <Shift>uparrow", _("Exact seek backward/forward 5 seconds")},
+-			{"<Ctrl>leftarrow <Ctrl>rightarrow", _("Seek to previous/next subtitle")},
++//			{"<Ctrl>leftarrow <Ctrl>rightarrow", _("Seek to previous/next subtitle")},
+ 			{"comma period", _("Step backward/forward a single frame")},
+ 			{"Page_Up Page_Down", _("Seek to the beginning of the previous/next chapter")},
+ 			{NULL, NULL} };
+@@ -89,7 +89,7 @@ static void gmpv_shortcuts_window_init(GmpvShortcutsWindow *wnd)
+ 			{"<Shift>q", _("Save current playback position and quit")},
+ 			{NULL, NULL} };
+ 	const ShortcutEntry audio[]
+-		= {	{"numbersign", _("Cycle through audio tracks")},
++		= {	//{"numbersign", _("Cycle through audio tracks")},
+ 			{"slash asterisk", _("Decrease/increase volume")},
+ 			{"9 0", _("Decrease/increase volume")},
+ 			{"m", _("Mute or unmute")},
+@@ -97,7 +97,7 @@ static void gmpv_shortcuts_window_init(GmpvShortcutsWindow *wnd)
+ 			{NULL, NULL} };
+ 	const ShortcutEntry subtitle[]
+ 		= {	{"v", _("Toggle subtitle visibility")},
+-			{"i j", _("Cycle through available subtitles")},
++//			{"i j", _("Cycle through available subtitles")},
+ 			{"x z", _("Adjust subtitle delay by +/- 0.1 seconds")},
+ 			{"u", _("Toggle SSA/ASS subtitles style override")},
+ 			{"r t", _("Move subtitles up/down")},
