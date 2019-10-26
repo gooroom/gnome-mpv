@@ -1,0 +1,22 @@
+diff --git a/src/gmpv_file_chooser.c b/src/gmpv_file_chooser.c
+index b4717d5..cccbc3c 100644
+--- a/src/gmpv_file_chooser.c
++++ b/src/gmpv_file_chooser.c
+@@ -144,7 +144,7 @@ void gmpv_file_chooser_set_default_filters(	GmpvFileChooser *chooser,
+ 		gtk_file_filter_set_name(filter, _("Media Files"));
+ 		gtk_file_filter_add_mime_type(filter, "audio/*");
+ 		gtk_file_filter_add_mime_type(filter, "video/*");
+-		gtk_file_filter_add_mime_type(filter, "images/*");
++		gtk_file_filter_add_mime_type(filter, "image/*");
+ 		gtk_file_chooser_add_filter(gtk_chooser, filter);
+ 		gtk_file_chooser_set_filter(gtk_chooser, filter);
+ 	}
+@@ -169,7 +169,7 @@ void gmpv_file_chooser_set_default_filters(	GmpvFileChooser *chooser,
+ 	{
+ 		GtkFileFilter *filter = gtk_file_filter_new();
+ 		gtk_file_filter_set_name(filter, _("Image Files"));
+-		gtk_file_filter_add_mime_type(filter, "images/*");
++		gtk_file_filter_add_mime_type(filter, "image/*");
+ 		gtk_file_chooser_add_filter(gtk_chooser, filter);
+ 	}
+ 
