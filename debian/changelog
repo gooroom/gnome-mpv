@@ -1,3 +1,15 @@
+gnome-mpv (0.14-1+grm2u1) unstable; urgency=medium
+
+  [ cjhoo ]
+  * [f27a19a2] Added patch regarding shortcuts
+  * [4dd27a77] [Bug:1333] Fixed image filter error
+  * [5630243d] [Bug:1345-1347] Disabled video resize menu when fullscreen
+  * [c891f3c6] [Bug:1705,1369,1340,1376] Removed video/audio/subtitle track menu
+
+  [ Gooroom Autobuilder ]
+
+ -- Gooroom Autobuilder <jenkins@gooroom.kr>  Sun, 01 Dec 2019 15:53:47 +0900
+
 gnome-mpv (0.14-1) unstable; urgency=medium
 
   * New upstream release.
