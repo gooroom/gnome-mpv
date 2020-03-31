@@ -3,3 +3,4 @@ gooroom-fix-image-filter-issue.patch
 gooroom-disable-video-size-adjustment-when-fullscreen.patch
 gooroom-remove-track-menu.patch
 gooroom-fix-control-box-activation-duplicate.patch
+gooroom-save-playlist-only-if-not-empty.patch

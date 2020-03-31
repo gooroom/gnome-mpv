@@ -1,0 +1,102 @@
+From 4cb13bd69883db271b2c7ab8afdd4fee99e5ec1e Mon Sep 17 00:00:00 2001
+From: "subin.kim" <subin.kim@gooroom.kr>
+Date: Fri, 3 Apr 2020 10:45:59 +0900
+Subject: [PATCH] gooroom save playlist only if not empty
+
+Change-Id: Id82a366bb4745ee24cea2cd99990a256d8f09b3d
+---
+ src/gmpv_view.c | 67 +++++++++++++++++++++++++++++--------------------
+ 1 file changed, 40 insertions(+), 27 deletions(-)
+
+diff --git a/src/gmpv_view.c b/src/gmpv_view.c
+index cf31b00..117e8c9 100644
+--- a/src/gmpv_view.c
++++ b/src/gmpv_view.c
+@@ -1393,44 +1393,57 @@ void gmpv_view_show_open_subtitle_track_dialog(GmpvView *view)
+ 
+ void gmpv_view_show_save_playlist_dialog(GmpvView *view)
+ {
++	GmpvPlaylistWidget *wgt = gmpv_main_window_get_playlist(view->wnd);
++	GPtrArray *playlist = gmpv_playlist_widget_get_contents(wgt);
++
+ 	GFile *dest_file;
+ 	GmpvFileChooser *file_chooser;
+ 	GtkFileChooser *gtk_chooser;
+ 	GError *error;
+ 
+-	dest_file = NULL;
+-	file_chooser =	gmpv_file_chooser_new
+-			(	_("Save Playlist"),
+-				GTK_WINDOW(view->wnd),
+-				GTK_FILE_CHOOSER_ACTION_SAVE );
+-	gtk_chooser = GTK_FILE_CHOOSER(file_chooser);
+-	error = NULL;
+-
+-	gtk_file_chooser_set_current_name(gtk_chooser, "playlist.m3u");
+-
+-	if(gmpv_file_chooser_run(file_chooser) == GTK_RESPONSE_ACCEPT)
+-	{
+-		/* There should be only one file selected. */
+-		dest_file = gtk_file_chooser_get_file(gtk_chooser);
+-	}
+-
+-	gmpv_file_chooser_destroy(file_chooser);
+-
+-	if(dest_file)
+-	{
+-		save_playlist(view, dest_file, &error);
+-		g_object_unref(dest_file);
+-	}
+-
+-	if(error)
++	if(playlist->len == 0)
+ 	{
+ 		show_message_dialog(	view->wnd,
+ 					GTK_MESSAGE_ERROR,
+ 					_("Error"),
+ 					NULL,
+-					error->message );
++					_("Cannot save an empty playlist") );
++	}
++	else
++	{
++		dest_file = NULL;
++		file_chooser =	gmpv_file_chooser_new
++			(	_("Save Playlist"),GTK_WINDOW(view->wnd),
++			GTK_FILE_CHOOSER_ACTION_SAVE );
++			gtk_chooser = GTK_FILE_CHOOSER(file_chooser);
++			error = NULL;
++
++		gtk_file_chooser_set_current_name(gtk_chooser, "playlist.m3u");
+ 
+-		g_error_free(error);
++		if(gmpv_file_chooser_run(file_chooser) == GTK_RESPONSE_ACCEPT)
++		{
++				/* There should be only one file selected. */
++				dest_file = gtk_file_chooser_get_file(gtk_chooser);
++		}
++
++		gmpv_file_chooser_destroy(file_chooser);
++
++		if(dest_file)
++		{
++			save_playlist(view, dest_file, &error);
++			g_object_unref(dest_file);
++		}
++
++		if(error)
++		{
++			show_message_dialog(	view->wnd,
++									GTK_MESSAGE_ERROR,
++									_("Error"),
++									NULL,
++									error->message );
++
++			g_error_free(error);
++		}
+ 	}
+ }
+ 
+-- 
+2.20.1
+
