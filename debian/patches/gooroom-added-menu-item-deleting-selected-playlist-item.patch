@@ -1,0 +1,44 @@
+From 04e3491c86e8ed04a71e5d0a82e39efe6ccf70fc Mon Sep 17 00:00:00 2001
+From: "subin.kim" <subin.kim@gooroom.kr>
+Date: Fri, 3 Apr 2020 15:12:48 +0900
+Subject: [PATCH] [Bug: 1520] Added menu item deleting selected playlist item
+
+Change-Id: I928372390e14994da2f209e2bb2016c9d1adf9d4
+---
+ src/gmpv_playlist_widget.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/src/gmpv_playlist_widget.c b/src/gmpv_playlist_widget.c
+index 89e6838..ad451a4 100644
+--- a/src/gmpv_playlist_widget.c
++++ b/src/gmpv_playlist_widget.c
+@@ -525,6 +525,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
+ 		GMenu *menu;
+ 		GMenuItem *add_menu_item;
+ 		GMenuItem *add_loc_menu_item;
++		GMenuItem *delete_menu_item;
+ 		GMenuItem *shuffle_menu_item;
+ 		GMenuItem *loop_file_menu_item;
+ 		GMenuItem *loop_playlist_menu_item;
+@@ -539,6 +540,10 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
+ 			=	g_menu_item_new
+ 				(	_("Add _Location…"),
+ 					"win.show-open-location-dialog(true)" );
++		delete_menu_item
++			=	g_menu_item_new
++				(	_("_Delete"),
++					 "win.remove-selected-playlist-item");
+ 		shuffle_menu_item
+ 			=	g_menu_item_new
+ 				(	_("_Shuffle"),
+@@ -554,6 +559,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
+ 
+ 		g_menu_append_item(menu, add_menu_item);
+ 		g_menu_append_item(menu, add_loc_menu_item);
++		g_menu_append_item(menu, delete_menu_item);
+ 		g_menu_append_item(menu, shuffle_menu_item);
+ 		g_menu_append_item(menu, loop_file_menu_item);
+ 		g_menu_append_item(menu, loop_playlist_menu_item);
+-- 
+2.20.1
+
