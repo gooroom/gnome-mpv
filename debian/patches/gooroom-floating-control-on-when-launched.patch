@@ -1,0 +1,40 @@
+diff --git a/src/gmpv_main_window.c b/src/gmpv_main_window.c
+index 09c7974..5a26014 100644
+--- a/src/gmpv_main_window.c
++++ b/src/gmpv_main_window.c
+@@ -371,17 +371,6 @@ GmpvVideoArea *gmpv_main_window_get_video_area(GmpvMainWindow *wnd)
+ void gmpv_main_window_set_use_floating_controls(	GmpvMainWindow *wnd,
+ 							gboolean floating )
+ {
+-	gboolean visible = gmpv_main_window_get_controls_visible(wnd);
+-
+-	if (visible)
+-	{
+-		gtk_widget_set_visible (wnd->control_box, FALSE);
+-		gmpv_video_area_set_control_box_visible (GMPV_VIDEO_AREA(wnd->vid_area), FALSE);
+-		wnd->use_floating_controls = floating;
+-
+-		return;
+-	}
+-
+ 	if(floating != wnd->use_floating_controls)
+ 	{
+ 		gtk_widget_set_visible
+@@ -682,17 +671,6 @@ gboolean gmpv_main_window_get_playlist_visible(GmpvMainWindow *wnd)
+ void gmpv_main_window_set_controls_visible(	GmpvMainWindow *wnd,
+ 						gboolean visible )
+ {
+-	if (visible)
+-	{
+-		gtk_widget_set_visible (wnd->control_box, FALSE);
+-		gmpv_video_area_set_control_box_visible (GMPV_VIDEO_AREA(wnd->vid_area), FALSE);
+-	}
+-	else
+-	{
+-		gtk_widget_set_visible (wnd->control_box, wnd->use_floating_controls);
+-		gmpv_video_area_set_control_box_visible (GMPV_VIDEO_AREA(wnd->vid_area), wnd->use_floating_controls);
+-	}
+-
+ 	gtk_widget_set_visible(GTK_WIDGET(wnd->control_box), visible);
+ }
+ 

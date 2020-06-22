@@ -6,3 +6,4 @@ gooroom-fix-control-box-activation-duplicate.patch
 gooroom-save-playlist-only-if-not-empty.patch
 gooroom-added-menu-item-deleting-selected-playlist-item.patch
 gooroom-added-subtitle-menu.patch
+gooroom-floating-control-on-when-launched.patch
