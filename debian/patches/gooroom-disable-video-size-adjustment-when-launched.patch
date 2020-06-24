@@ -1,0 +1,24 @@
+diff --git a/src/gmpv_controller.c b/src/gmpv_controller.c
+index 76ca860..caac174 100644
+--- a/src/gmpv_controller.c
++++ b/src/gmpv_controller.c
+@@ -874,7 +874,18 @@ static void fullscreen_handler(		GObject *object,
+ 	g_simple_action_set_enabled
+ 		(G_SIMPLE_ACTION(toggle_controls), !fullscreen);
+ 	g_simple_action_set_enabled
+-		(G_SIMPLE_ACTION(set_video_size), !fullscreen);
++		(G_SIMPLE_ACTION(set_video_size), fullscreen);
++
++	if (fullscreen)
++	{
++		g_simple_action_set_enabled
++			(G_SIMPLE_ACTION(set_video_size), !fullscreen);
++	}
++	else
++	{
++		g_simple_action_set_enabled
++			(G_SIMPLE_ACTION(set_video_size), fullscreen);
++	}
+ }
+ 
+ static void play_button_handler(GtkButton *button, gpointer data)
