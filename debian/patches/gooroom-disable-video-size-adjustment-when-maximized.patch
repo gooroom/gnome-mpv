@@ -1,0 +1,88 @@
+diff --git a/src/gmpv_controller.c b/src/gmpv_controller.c
+index caac174..44001fc 100644
+--- a/src/gmpv_controller.c
++++ b/src/gmpv_controller.c
+@@ -665,18 +665,49 @@ static void window_scale_handler(	GObject *object,
+ 	gint64 video_height = 1;
+ 	gint width = 1;
+ 	gint height = 1;
++	gint window_width = 0;
++	gint window_height = 0;
+ 	gdouble window_scale = 1.0;
+ 	gdouble new_window_scale = 1.0;
+ 
++	GmpvMainWindow *window = gmpv_view_get_main_window(controller->view);
++
++	GActionMap *map = G_ACTION_MAP(window);
++	GAction *set_video_size  = NULL;
++
++	set_video_size = g_action_map_lookup_action(map, "set-video-size");
++
+ 	gmpv_model_get_video_geometry(	controller->model,
+ 					&video_width,
+ 					&video_height );
++
+ 	gmpv_view_get_video_area_geometry(controller->view, &width, &height);
++	gtk_window_get_size(GTK_WINDOW(window), &window_width, &window_height);
++
+ 	g_object_get(object, "window-scale", &new_window_scale, NULL);
+ 
+ 	window_scale = MIN(	width/(gdouble)video_width,
+ 				height/(gdouble)video_height );
+ 
++	if (video_width==1 && video_height ==1)
++	{
++		g_simple_action_set_enabled(G_SIMPLE_ACTION(set_video_size), FALSE);
++	}
++	else
++	{
++		if (gtk_window_is_maximized(GTK_WINDOW(window))
++			|| ((width == window_width) && (height == window_height)))
++		{
++			g_simple_action_set_enabled
++				(G_SIMPLE_ACTION(set_video_size), FALSE);
++		}
++		else
++		{
++			g_simple_action_set_enabled
++				(G_SIMPLE_ACTION(set_video_size), TRUE);
++		}
++	}
++
+ 	if(ABS(window_scale-new_window_scale) > 0.0001)
+ 	{
+ 		gmpv_controller_autofit(data, new_window_scale);
+diff --git a/src/gmpv_view.c b/src/gmpv_view.c
+index 117e8c9..032bd35 100644
+--- a/src/gmpv_view.c
++++ b/src/gmpv_view.c
+@@ -865,6 +865,12 @@ static gboolean window_state_handler(	GtkWidget *widget,
+ 	GmpvView *view = data;
+ 	GdkEventWindowState *state = (GdkEventWindowState *)event;
+ 
++	GmpvMainWindow *window = gmpv_view_get_main_window(view);
++	GActionMap *map = G_ACTION_MAP(window);
++	GAction *set_video_size  = NULL;
++
++	set_video_size  = g_action_map_lookup_action(map, "set-video-size");
++
+ 	if(state->changed_mask&GDK_WINDOW_STATE_FULLSCREEN)
+ 	{
+ 		view->fullscreen =	state->new_window_state&
+@@ -872,6 +878,16 @@ static gboolean window_state_handler(	GtkWidget *widget,
+ 
+ 		g_object_notify(data, "fullscreen");
+ 	}
++	else if (state->new_window_state&GDK_WINDOW_STATE_MAXIMIZED)
++	{
++		g_simple_action_set_enabled
++			(G_SIMPLE_ACTION(set_video_size), FALSE);
++	}
++	else
++	{
++		g_simple_action_set_enabled
++			(G_SIMPLE_ACTION(set_video_size), TRUE);
++	}
+ 
+ 	return FALSE;
+ }

@@ -8,3 +8,4 @@ gooroom-added-menu-item-deleting-selected-playlist-item.patch
 gooroom-added-subtitle-menu.patch
 gooroom-floating-control-on-when-launched.patch
 gooroom-disable-video-size-adjustment-when-launched.patch
+gooroom-disable-video-size-adjustment-when-maximized.patch
