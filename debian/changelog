@@ -1,3 +1,17 @@
+gnome-mpv (0.14-1+grm2u3) unstable; urgency=medium
+
+  [ subin.kim ]
+  * [c9ca0d37] [Bug:2072] Save playlist only if not empty
+  * [07899a8a] [Bug:1520] Added menu item deleting selected playlist item
+  * [1ae0dddf] [Bug:2104,2108] Added subtitle menu
+  * [75e99c74] [Bug:2094] floating control on when launched
+  * [e2882144] [Bug:2017] Disable video size adjustment when launched
+  * [a0a7b452] [Bug:2021] Disable video size adjustment when maximized
+
+  [ Gooroom Autobuilder ]
+
+ -- Gooroom Autobuilder <jenkins@gooroom.kr>  Tue, 07 Jul 2020 10:17:42 +0900
+
 gnome-mpv (0.14-1+grm2u2) unstable; urgency=medium
 
   [ donghun ]
