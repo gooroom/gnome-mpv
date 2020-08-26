@@ -10,3 +10,4 @@ gooroom-floating-control-on-when-launched.patch
 gooroom-disable-video-size-adjustment-when-launched.patch
 gooroom-disable-video-size-adjustment-when-maximized.patch
 gooroom-delete-if-playlist-exist.patch
+gooroom-fix-video-size-menu-activation-issue.patch

@@ -1,0 +1,16 @@
+diff --git a/src/gmpv_view.c b/src/gmpv_view.c
+index 032bd35..5cee40c 100644
+--- a/src/gmpv_view.c
++++ b/src/gmpv_view.c
+@@ -883,11 +883,6 @@ static gboolean window_state_handler(	GtkWidget *widget,
+ 		g_simple_action_set_enabled
+ 			(G_SIMPLE_ACTION(set_video_size), FALSE);
+ 	}
+-	else
+-	{
+-		g_simple_action_set_enabled
+-			(G_SIMPLE_ACTION(set_video_size), TRUE);
+-	}
+ 
+ 	return FALSE;
+ }
