@@ -1,0 +1,31 @@
+diff --git a/src/gmpv_playlist_widget.c b/src/gmpv_playlist_widget.c
+index ad451a4..37fca4e 100644
+--- a/src/gmpv_playlist_widget.c
++++ b/src/gmpv_playlist_widget.c
+@@ -512,6 +512,7 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
+ {
+ 	GmpvPlaylistWidget *wgt = data;
+ 	GdkEventButton *btn_event = (GdkEventButton *)event;
++	GtkTreePath *path = NULL;
+ 	gboolean handled;
+ 
+ 	wgt->last_x = (gint)btn_event->x;
+@@ -557,9 +558,17 @@ static gboolean mouse_press_handler(	GtkWidget *widget,
+ 				(	_("Loop _Playlist"),
+ 					"win.toggle-loop-playlist" );
+ 
++		gtk_tree_view_get_cursor
++			(	GTK_TREE_VIEW(wgt->tree_view),
++				&path,
++				NULL );
++
+ 		g_menu_append_item(menu, add_menu_item);
+ 		g_menu_append_item(menu, add_loc_menu_item);
+-		g_menu_append_item(menu, delete_menu_item);
++		if(path)
++		{
++			g_menu_append_item(menu, delete_menu_item);
++		}
+ 		g_menu_append_item(menu, shuffle_menu_item);
+ 		g_menu_append_item(menu, loop_file_menu_item);
+ 		g_menu_append_item(menu, loop_playlist_menu_item);
