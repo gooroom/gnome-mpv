@@ -1,3 +1,13 @@
+gnome-mpv (0.14-1+grm2u4) unstable; urgency=medium
+
+  [ subin.kim ]
+  * [721d284c] [Bug:2508] Delete Menu created only if playlist exist
+  * [c1dc34dc] [Bug:2507] Fixed video size adjustment menu activation error
+
+  [ Gooroom Autobuilder ]
+
+ -- Gooroom Autobuilder <jenkins@gooroom.kr>  Mon, 02 Nov 2020 16:02:20 +0900
+
 gnome-mpv (0.14-1+grm2u3) unstable; urgency=medium
 
   [ subin.kim ]
