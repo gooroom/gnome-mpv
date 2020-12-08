@@ -1,0 +1,47 @@
+diff --git a/src/gmpv_def.h b/src/gmpv_def.h
+index c4756bf..7bcfd35 100644
+--- a/src/gmpv_def.h
++++ b/src/gmpv_def.h
+@@ -40,6 +40,8 @@
+ #define WAYLAND_NOCSD_HEIGHT_OFFSET 60
+ #define MAIN_WINDOW_DEFAULT_WIDTH 625
+ #define MAIN_WINDOW_DEFAULT_HEIGHT 400
++#define MAIN_WINDOW_MIN_WIDTH 440
++#define MAIN_WINDOW_MIN_HEIGHT 350
+ #define SEEK_BAR_UPDATE_INTERVAL 250
+ #define FS_CONTROL_HIDE_DELAY 1
+ #define KEYSTRING_MAX_LEN 16
+diff --git a/src/gmpv_main_window.c b/src/gmpv_main_window.c
+index 5a26014..789621b 100644
+--- a/src/gmpv_main_window.c
++++ b/src/gmpv_main_window.c
+@@ -263,6 +263,7 @@ static void gmpv_main_window_class_init(GmpvMainWindowClass *klass)
+ static void gmpv_main_window_init(GmpvMainWindow *wnd)
+ {
+ 	GmpvControlBox *vid_area_control_box = NULL;
++	GdkGeometry hints;
+ 
+ 	wnd->csd = FALSE;
+ 	wnd->always_floating = FALSE;
+@@ -283,6 +284,9 @@ static void gmpv_main_window_init(GmpvMainWindow *wnd)
+ 	wnd->width_offset = 0;
+ 	wnd->height_offset = 0;
+ 
++	hints.min_width = MAIN_WINDOW_MIN_WIDTH;
++	hints.min_height = MAIN_WINDOW_MIN_HEIGHT;
++
+ 	vid_area_control_box =	gmpv_video_area_get_control_box
+ 				(GMPV_VIDEO_AREA(wnd->vid_area));
+ 
+@@ -332,6 +336,11 @@ static void gmpv_main_window_init(GmpvMainWindow *wnd)
+ 				MAIN_WINDOW_DEFAULT_WIDTH
+ 				-PLAYLIST_DEFAULT_WIDTH );
+ 
++	gtk_window_set_geometry_hints(	GTK_WINDOW(wnd),
++					GTK_WINDOW(wnd),
++					&hints,
++					GDK_HINT_MIN_SIZE);
++
+ 	gtk_window_set_default_size(	GTK_WINDOW(wnd),
+ 					MAIN_WINDOW_DEFAULT_WIDTH,
+ 					MAIN_WINDOW_DEFAULT_HEIGHT );
