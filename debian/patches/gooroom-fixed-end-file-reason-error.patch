@@ -1,0 +1,19 @@
+diff --git a/src/gmpv_player.c b/src/gmpv_player.c
+index 0a28dda..fa1c79a 100644
+--- a/src/gmpv_player.c
++++ b/src/gmpv_player.c
+@@ -192,6 +192,14 @@ static void mpv_event_notify(GmpvMpv *mpv, gint event_id, gpointer event_data)
+ 	}
+ 	else if(event_id == MPV_EVENT_END_FILE)
+ 	{
++		mpv_event_end_file *event = event_data;
++
++        if(event->reason == MPV_END_FILE_REASON_ERROR)
++        {
++			player->playlist->len = 0;
++            g_debug("Failed to fetch metadata");
++        }
++
+ 		if(player->loaded)
+ 		{
+ 			player->new_file = FALSE;
