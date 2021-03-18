@@ -1,0 +1,12 @@
+diff --git a/src/gmpv_player.c b/src/gmpv_player.c
+index 0a28dda..f15dfc0 100644
+--- a/src/gmpv_player.c
++++ b/src/gmpv_player.c
+@@ -1077,6 +1077,7 @@ void gmpv_player_remove_playlist_entry(GmpvPlayer *player, gint64 position)
+ 		gmpv_mpv_command(GMPV_MPV(player), cmd);
+ 		g_free(index_str);
+ 	}
++	player->playlist->len--;
+ }
+ 
+ void gmpv_player_move_playlist_entry(GmpvPlayer *player, gint64 src, gint64 dst)
