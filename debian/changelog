@@ -1,3 +1,15 @@
+gnome-mpv (0.14-1+grm2u5) unstable; urgency=medium
+
+  [ subin.kim ]
+  * [c04ae7c6] [Bug:3066] Set minimum window size
+  * [8f4a8b64] [Bug:3093] Fixed reoccuring alert error message appears once
+  * [dd6e32cc] [Bug:3112]Fixed remaining deleted playlist error
+  * [c80d50fd] [Bug:3112]Fixed remaining deleted playlist error-patch update
+
+  [ Gooroom Autobuilder ]
+
+ -- Gooroom Autobuilder <jenkins@gooroom.kr>  Thu, 01 Apr 2021 09:30:45 +0900
+
 gnome-mpv (0.14-1+grm2u4) unstable; urgency=medium
 
   [ subin.kim ]
