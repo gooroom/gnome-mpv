@@ -1,0 +1,127 @@
+From 8e403c20167d487170bb156135283bde93af8d97 Mon Sep 17 00:00:00 2001
+From: "boyeon.choi" <boyeon.choi@gooroom.kr>
+Date: Tue, 20 Apr 2021 19:42:16 +0900
+Subject: [PATCH] Enable the help program
+
+---
+ src/gmpv_controller_actions.c | 12 ++++++++++++
+ src/gmpv_def.h                |  1 +
+ src/gmpv_menu.c               |  2 ++
+ src/gmpv_shortcuts_window.c   |  1 +
+ src/gmpv_view.c               |  6 ++++++
+ src/gmpv_view.h               |  1 +
+ 6 files changed, 23 insertions(+)
+
+diff --git a/src/gmpv_controller_actions.c b/src/gmpv_controller_actions.c
+index 571890b..96b6dd5 100644
+--- a/src/gmpv_controller_actions.c
++++ b/src/gmpv_controller_actions.c
+@@ -104,6 +104,9 @@ static void set_video_size_handler(	GSimpleAction *action,
+ static void show_about_dialog_handler(	GSimpleAction *action,
+ 					GVariant *param,
+ 					gpointer data );
++static void show_help_dialog_handler(	GSimpleAction *action,
++					GVariant *param,
++					gpointer data );
+ 
+ static gboolean track_id_to_state(	GBinding *binding,
+ 					const GValue *from_value,
+@@ -417,6 +420,13 @@ static void show_about_dialog_handler(	GSimpleAction *action,
+ 	gmpv_view_show_about_dialog(gmpv_controller_get_view(data));
+ }
+ 
++static void show_help_dialog_handler(	GSimpleAction *action,
++					GVariant *param,
++					gpointer data )
++{
++	gmpv_view_show_help_dialog(gmpv_controller_get_view(data));
++}
++
+ void gmpv_controller_action_register_actions(GmpvController *controller)
+ {
+ 	const GActionEntry entries[]
+@@ -430,6 +440,8 @@ void gmpv_controller_action_register_actions(GmpvController *controller)
+ 			.activate = quit_handler},
+ 			{.name = "show-about-dialog",
+ 			.activate = show_about_dialog_handler},
++			{.name = "show-help-dialog",
++			.activate = show_help_dialog_handler},
+ 			{.name = "show-preferences-dialog",
+ 			.activate = show_preferences_dialog_handler},
+ 			{.name = "show-open-location-dialog",
+diff --git a/src/gmpv_def.h b/src/gmpv_def.h
+index 9368996..0db770a 100644
+--- a/src/gmpv_def.h
++++ b/src/gmpv_def.h
+@@ -95,6 +95,7 @@
+ 		"Ctrl+? script-message gmpv-action win.show-shortcuts-dialog",\
+ 		"Ctrl+p script-message gmpv-action win.show-preferences-dialog",\
+ 		"Ctrl+h script-message gmpv-action win.toggle-controls",\
++		"F1 script-message gmpv-action win.show-help-dialog",\
+ 		"F9 script-message gmpv-action win.toggle-playlist",\
+ 		"F11 cycle fullscreen",\
+ 		"v osd-msg cycle sub-visibility",\
+diff --git a/src/gmpv_menu.c b/src/gmpv_menu.c
+index dbe03dd..041ff85 100644
+--- a/src/gmpv_menu.c
++++ b/src/gmpv_menu.c
+@@ -260,6 +260,7 @@ void gmpv_menu_build_full(GMenu *menu, const GPtrArray *track_list)
+ 			{_("_Help"), NULL, NULL},
+ 			{_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog" , NULL},
+ 			{_("_About"), "win.show-about-dialog", NULL},
++			{_("_Help"), "win.show-help-dialog", NULL},
+ 			{NULL, NULL, NULL} };
+ 
+ 	build_menu(menu, entries, FALSE);
+@@ -335,6 +336,7 @@ void gmpv_menu_build_app_menu(GMenu *menu)
+ 			{NULL, "", NULL},
+ 			{_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog", NULL},
+ 			{_("_About"), "win.show-about-dialog", NULL},
++			{_("_Help"), "win.show-help-dialog", NULL},
+ 			{_("_Quit"), "win.quit", NULL},
+ 			{NULL, NULL, NULL} };
+ 
+diff --git a/src/gmpv_shortcuts_window.c b/src/gmpv_shortcuts_window.c
+index 641df45..fe84e02 100644
+--- a/src/gmpv_shortcuts_window.c
++++ b/src/gmpv_shortcuts_window.c
+@@ -65,6 +65,7 @@ static void gmpv_shortcuts_window_init(GmpvShortcutsWindow *wnd)
+ 			{"<Shift>o", _("Toggle OSD states between normal and playback time/duration")},
+ 			{"<Shift>i", _("Show filename on the OSD")},
+ 			{"o <Shift>p", _("Show progress, elapsed time, and duration on the OSD")},
++			{"F1", _("Help")},
+ 			{NULL, NULL} };
+ 	const ShortcutEntry seeking[]
+ 		= {	{"leftarrow rightarrow", _("Seek backward/forward 5 seconds")},
+diff --git a/src/gmpv_view.c b/src/gmpv_view.c
+index 5cee40c..710113d 100644
+--- a/src/gmpv_view.c
++++ b/src/gmpv_view.c
+@@ -1503,6 +1503,12 @@ void gmpv_view_show_about_dialog(GmpvView *view)
+ 				NULL );
+ }
+ 
++void gmpv_view_show_help_dialog(GmpvView *view)
++{
++    gtk_show_uri_on_window (GTK_WINDOW(view->wnd), "help:gooroom-help-gnome-mpv",
++                            gtk_get_current_event_time (),NULL);
++}
++
+ void gmpv_view_show_message_dialog(	GmpvView *view,
+ 					GtkMessageType type,
+ 					const gchar *title,
+diff --git a/src/gmpv_view.h b/src/gmpv_view.h
+index 258b3f6..77e34b5 100644
+--- a/src/gmpv_view.h
++++ b/src/gmpv_view.h
+@@ -40,6 +40,7 @@ void gmpv_view_show_save_playlist_dialog(GmpvView *view);
+ void gmpv_view_show_preferences_dialog(GmpvView *view);
+ void gmpv_view_show_shortcuts_dialog(GmpvView *view);
+ void gmpv_view_show_about_dialog(GmpvView *view);
++void gmpv_view_show_help_dialog(GmpvView *view);
+ void gmpv_view_show_message_dialog(	GmpvView *view,
+ 					GtkMessageType type,
+ 					const gchar *title,
+-- 
+2.20.1
+
