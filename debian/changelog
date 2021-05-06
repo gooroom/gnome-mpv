@@ -1,3 +1,10 @@
+gnome-mpv (0.14-1+grm2u6) unstable; urgency=medium
+
+  [ boyeon.choi ]
+  * [f177ab83] Enable the help program
+
+ -- Gooroom Autobuilder <jenkins@gooroom.kr>  Thu, 06 May 2021 16:51:23 +0900
+
 gnome-mpv (0.14-1+grm2u5) unstable; urgency=medium
 
   [ subin.kim ]
