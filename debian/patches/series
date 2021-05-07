@@ -15,3 +15,4 @@ gooroom-set-min-window-size.patch
 gooroom-fixed-end-file-reason-error.patch
 gooroom-fix-remaining-deleted-playlist-error.patch
 gooroom-enable-the-help-program.patch
+gooroom-set-help-menu-flexible.patch

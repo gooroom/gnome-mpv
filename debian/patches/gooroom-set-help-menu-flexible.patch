@@ -1,0 +1,146 @@
+From ddda7104cdc119f34d9ec3a775a18962b275e98f Mon Sep 17 00:00:00 2001
+From: "boyeon.choi" <boyeon.choi@gooroom.kr>
+Date: Fri, 7 May 2021 21:59:59 +0900
+Subject: [PATCH] Set help menu flexible
+
+Change-Id: I44b0d86ee5a1e142052351fede5267f6633fbafb
+---
+ src/gmpv_controller_actions.c |  8 +++++++-
+ src/gmpv_menu.c               | 20 +++++++++++++++++---
+ src/gmpv_shortcuts_window.c   | 10 +++++++++-
+ 3 files changed, 33 insertions(+), 5 deletions(-)
+
+diff --git a/src/gmpv_controller_actions.c b/src/gmpv_controller_actions.c
+index 96b6dd5..f398b0c 100644
+--- a/src/gmpv_controller_actions.c
++++ b/src/gmpv_controller_actions.c
+@@ -24,6 +24,8 @@
+ #include "gmpv_file_chooser.h"
+ #include "gmpv_common.h"
+ 
++#define GOOROOM_YELP_ADJUST_MENTS "/usr/share/gooroom-yelp-adjustments"
++
+ static gboolean track_id_to_state(	GBinding *binding,
+ 					const GValue *from_value,
+ 					GValue *to_value,
+@@ -429,7 +431,7 @@ static void show_help_dialog_handler(	GSimpleAction *action,
+ 
+ void gmpv_controller_action_register_actions(GmpvController *controller)
+ {
+-	const GActionEntry entries[]
++	GActionEntry entries[]
+ 		= {	{.name = "open",
+ 			.activate = open_handler,
+ 			.parameter_type = "(sb)"},
+@@ -497,5 +499,9 @@ void gmpv_controller_action_register_actions(GmpvController *controller)
+ 						G_N_ELEMENTS(entries),
+ 						controller );
+ 
++	/* For help ation flexible */
++	if (!g_file_test (GOOROOM_YELP_ADJUST_MENTS, G_FILE_TEST_EXISTS)){
++		g_action_map_remove_action (G_ACTION_MAP(window),"show-help-dialog");
++	}
+ 	bind_properties(controller);
+ }
+diff --git a/src/gmpv_menu.c b/src/gmpv_menu.c
+index 041ff85..b1e8456 100644
+--- a/src/gmpv_menu.c
++++ b/src/gmpv_menu.c
+@@ -25,6 +25,8 @@
+ #include "gmpv_menu.h"
+ #include "gmpv_common.h"
+ 
++#define GOOROOM_YELP_ADJUSTMENTS "/usr/share/gooroom-yelp-adjustments"
++
+ typedef struct GmpvMenuEntry GmpvMenuEntry;
+ 
+ struct GmpvMenuEntry
+@@ -239,7 +241,7 @@ void gmpv_menu_build_full(GMenu *menu, const GPtrArray *track_list)
+ //	audio_menu = build_audio_track_menu(audio_tracks);
+ 	subtitle_menu = build_subtitle_track_menu(subtitle_tracks);
+ 
+-	const GmpvMenuEntry entries[]
++	GmpvMenuEntry entries[]
+ 		= {	{_("_File"), NULL, NULL},
+ 			{_("_Open"), "win.show-open-dialog(false)", NULL},
+ 			{_("Open _Location"), "win.show-open-location-dialog(false)", NULL},
+@@ -257,12 +259,16 @@ void gmpv_menu_build_full(GMenu *menu, const GPtrArray *track_list)
+ 			{_("_Normal Size"), "win.set-video-size(@d 1)", NULL},
+ 			{_("_Double Size"), "win.set-video-size(@d 2)", NULL},
+ 			{_("_Half Size"), "win.set-video-size(@d 0.5)", NULL},
+-			{_("_Help"), NULL, NULL},
+ 			{_("_Keyboard Shortcuts"), "win.show-shortcuts-dialog" , NULL},
+ 			{_("_About"), "win.show-about-dialog", NULL},
+ 			{_("_Help"), "win.show-help-dialog", NULL},
+ 			{NULL, NULL, NULL} };
+ 
++	/* For help menu flexible */
++	if (!g_file_test(GOOROOM_YELP_ADJUSTMENTS, G_FILE_TEST_EXISTS)){
++		entries[17].action = NULL;
++	}
++
+ 	build_menu(menu, entries, FALSE);
+ 
+ //	g_ptr_array_free(audio_tracks, FALSE);
+@@ -328,7 +334,7 @@ void gmpv_menu_build_open_btn(GMenu *menu)
+ 
+ void gmpv_menu_build_app_menu(GMenu *menu)
+ {
+-	const GmpvMenuEntry entries[]
++	GmpvMenuEntry entries[]
+ 		= {	{NULL, "", NULL},
+ 			{_("_New Window"), "app.new-window", NULL},
+ 			{NULL, "", NULL},
+@@ -340,6 +346,14 @@ void gmpv_menu_build_app_menu(GMenu *menu)
+ 			{_("_Quit"), "win.quit", NULL},
+ 			{NULL, NULL, NULL} };
+ 
++    /* For help menu flexible */
++    if (!g_file_test(GOOROOM_YELP_ADJUSTMENTS, G_FILE_TEST_EXISTS)){
++		entries[7].title=_("_Quit");
++		entries[7].action="win.quit";
++		entries[8].title=NULL;
++		entries[8].action=NULL;
++	}
++
+ 	build_menu(menu, entries, TRUE);
+ }
+ 
+diff --git a/src/gmpv_shortcuts_window.c b/src/gmpv_shortcuts_window.c
+index fe84e02..88e78ae 100644
+--- a/src/gmpv_shortcuts_window.c
++++ b/src/gmpv_shortcuts_window.c
+@@ -22,6 +22,7 @@
+ #include <gtk/gtk.h>
+ 
+ #include "gmpv_shortcuts_window.h"
++#define GOOROOM_YELP_ADJUSTMENTS "/usr/share/gooroom-yelp-adjustments"
+ 
+ struct _GmpvShortcutsWindow
+ {
+@@ -52,7 +53,7 @@ G_DEFINE_TYPE(GmpvShortcutsWindow, gmpv_shortcuts_window, GTK_TYPE_SHORTCUTS_WIN
+ 
+ static void gmpv_shortcuts_window_init(GmpvShortcutsWindow *wnd)
+ {
+-	const ShortcutEntry general[]
++	ShortcutEntry general[]
+ 		= {	{"<Ctrl>o", _("Open file")},
+ 			{"<Ctrl>l", _("Open location")},
+ 			{"<Ctrl><Shift>o", _("Add file to playlist")},
+@@ -67,6 +68,13 @@ static void gmpv_shortcuts_window_init(GmpvShortcutsWindow *wnd)
+ 			{"o <Shift>p", _("Show progress, elapsed time, and duration on the OSD")},
+ 			{"F1", _("Help")},
+ 			{NULL, NULL} };
++
++	/* For help menu flexible */
++	if (!g_file_test(GOOROOM_YELP_ADJUSTMENTS, G_FILE_TEST_EXISTS)){
++		general[12].accel = NULL;
++		general[12].title = NULL;
++	}
++
+ 	const ShortcutEntry seeking[]
+ 		= {	{"leftarrow rightarrow", _("Seek backward/forward 5 seconds")},
+ 			{"<Shift>leftarrow <Shift>rightarrow", _("Exact seek backward/forward 1 second")},
+-- 
+2.20.1
+
